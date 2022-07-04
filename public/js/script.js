@@ -1,5 +1,6 @@
 const btnCriar = document.getElementById("btnCriar");
 const btnCopiar = document.getElementById("btnCopiar");
+const btnBaixar = document.getElementById("btnBaixar");
 const btnLimpar = document.getElementById("btnLimpar");
 const txtNamespace = document.getElementById("txtNamespace");
 const txtClass = document.getElementById("txtClass");
@@ -8,11 +9,11 @@ const corpoCodigo = document.getElementById("corpoCodigo");
 const cbxConstructor = document.getElementById("cbxConstructor");
 const cbxGetter = document.getElementById("cbxGetter");
 
-onload = () => {
-    txtNamespace.value = "App\\Entity";
-    txtClass.value = "Pessoa";
-    txtAtributos.value = "nome_completo\ndata_nascimento\nnacionalidade";
-}
+// onload = () => {
+// txtNamespace.value = "App\\Entity";
+// txtClass.value = "Pessoa";
+// txtAtributos.value = "nome_completo\ndata_nascimento\nnacionalidade";
+// }
 
 var atributosArray = [];
 
@@ -29,6 +30,7 @@ btnLimpar.addEventListener("click", () => {
     corpoCodigo.innerHTML = "";
     corpoCodigo.classList.remove("hljs");
     btnCopiar.classList.add("invisible");
+    btnBaixar.classList.add("invisible");
 });
 
 btnCopiar.addEventListener("click", () => {
@@ -44,14 +46,25 @@ btnCopiar.addEventListener("click", () => {
     input.remove();
 });
 
+btnBaixar.addEventListener("click", () => {
+    var codigo = corpoCodigo.innerText;
+    var link = document.createElement("a");
+    var className = txtClass.value.trim();
+
+    className = (className == "") ? "ClasseExemplo" : capitalizeFirst(className);
+    link.href = window.URL.createObjectURL(new Blob([codigo], { type: "text/php" }));
+    link.download = className + ".php";
+    link.click();
+});
+
 function criarClasse() {
     atributosArray = criarAtributos();
 
     var className = txtClass.value.trim();
     var namespace = txtNamespace.value.trim();
 
-    className = (className == "") ? "ClassName" : capitalizeFirst(className);
-    namespace = (namespace == "") ? "..\\..\\" : namespace;
+    namespace = (namespace == "") ? "Pasta\\Subpasta\\" : namespace;
+    className = (className == "") ? "ClasseExemplo" : capitalizeFirst(className);
 
     var estrutura =
         [
@@ -82,6 +95,7 @@ function criarClasse() {
 
     sintaxHighlight();
     btnCopiar.classList.remove("invisible");
+    btnBaixar.classList.remove("invisible");
 }
 
 function criarAtributos() {
