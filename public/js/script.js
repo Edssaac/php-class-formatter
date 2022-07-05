@@ -63,7 +63,7 @@ function criarClasse() {
     var className = txtClass.value.trim();
     var namespace = txtNamespace.value.trim();
 
-    namespace = (namespace == "") ? "Pasta\\Subpasta\\" : namespace;
+    namespace = (namespace == "") ? "Pasta\\Subpasta" : namespace;
     className = (className == "") ? "ClasseExemplo" : capitalizeFirst(className);
 
     var estrutura =
