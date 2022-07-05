@@ -17,7 +17,8 @@
 
 ## Modo de usar:
 <div>
-    <p>Os atributos podem estar separados por quebra de linha:</p>
+    <p>Preencher os campos "Namespace" e "Nome da Classe" é opcional, mas para a classe ser gerada deve ser informado pelo menos um atributo.
+    <br>Os atributos podem estar separados por quebra de linha:</p>
         
 ```
 atributo1
@@ -41,6 +42,8 @@ atributo1 atributo_2
 atributo_3 atributo4
 ```
 </div>
+
+<p>* Atributos não podem conter caracteres especiais ou espaços em seus nomes.</p>
 
 ## Exemplo de código gerado pela ferramenta:
 <div align="center">
