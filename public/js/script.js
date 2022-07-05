@@ -9,12 +9,6 @@ const corpoCodigo = document.getElementById("corpoCodigo");
 const cbxConstructor = document.getElementById("cbxConstructor");
 const cbxGetter = document.getElementById("cbxGetter");
 
-// onload = () => {
-// txtNamespace.value = "App\\Entity";
-// txtClass.value = "Pessoa";
-// txtAtributos.value = "nome_completo\ndata_nascimento\nnacionalidade";
-// }
-
 var atributosArray = [];
 
 btnCriar.addEventListener("click", () => {
@@ -100,8 +94,10 @@ function criarClasse() {
 
 function criarAtributos() {
     atributosArray = null;
+    var atributos = txtAtributos.value.trim();
 
-    var atributos = (txtAtributos.value.trim()).split("\n");
+    atributos = atributos.replaceAll(" ", "\n");
+    atributos = atributos.split("\n");
 
     return atributos;
 }
