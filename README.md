@@ -15,11 +15,59 @@
     <img src="projeto/php-class-formatter.png">
 </div>
 
-<br>
-<br>
+## Modo de usar:
+<div>
+    <p>Os atributos podem estar separados por quebra de linha:</p>
+        
+```
+atributo1
+atributo_2
+```
+</div>
+
+<div>
+    <p>Separados por espaço em branco:</p>
+        
+```
+atributo1 atributo_2
+```
+</div>
+
+<div>
+    <p>Ou separados pelos dois jeitos:</p>
+        
+```
+atributo1 atributo_2
+atributo_3 atributo4
+```
+</div>
 
 ## Exemplo de código gerado pela ferramenta:
-
 <div align="center">
     <img src="projeto/exemplo.png">
 </div>
+
+## Código copiado:
+```php
+<?php
+	namespace Pasta\Subpasta;
+
+	class ClasseExemplo {
+
+		private $teste;
+
+		public function __construct($teste = '') {
+			$this->teste = $teste;
+		}
+
+		public function setTeste($teste){
+			$this->teste = $teste;
+		}
+
+		public function getTeste() {
+			return $this->teste;
+		}
+
+	}
+?>
+```
