@@ -17,11 +17,9 @@
 
 <br>
 <br>
-<div align="left">
-        <h3>Exemplo de código:</h3>
-</div>
 
-<hr>
+## Exemplo de código gerado pela ferramenta:
+
 <div align="center">
     <img src="projeto/exemplo.png">
 </div>
