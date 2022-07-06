@@ -1,3 +1,4 @@
+// Constantes necessárias para o projeto:
 const controls = document.querySelectorAll(".form-control");
 const container = document.getElementById("day-night");
 const sun = document.getElementById("sun");
@@ -5,9 +6,10 @@ const moon = document.getElementById("moon");
 const stars = document.getElementById("stars");
 const water = document.getElementById("water");
 
+// Verificando se o botão de modo noturdo/diário foi clicado:
 container.addEventListener("click", () => {
 
-    if (container.classList.contains("night")) {
+    if (container.classList.contains("night")) { // Mudando para o modo diurno:
         nightToDay();
 
         changeClass("body", "body-dark", "body-light");
@@ -16,7 +18,7 @@ container.addEventListener("click", () => {
         changeClass(".jumbotron", "jumbotron-dark", "jumbotron-light");
         changeClass(".form-control", "form-control-dark", "");
 
-    } else {
+    } else { // Mudando para o modo noturno:
         dayToNight();
 
         changeClass("body", "body-light", "body-dark");
@@ -27,8 +29,11 @@ container.addEventListener("click", () => {
 
     }
 
+    // Salvando o modo selecionado pelo usuário:
+    localStorage.setItem('selected-theme', getCurrentTheme());
 });
 
+// Função responsável pela a animação de noite para dia:
 function nightToDay() {
     container.style.background = "#e9786b";
     sun.style.opacity = 1;
@@ -40,6 +45,7 @@ function nightToDay() {
     container.classList.remove("night");
 }
 
+// Função responsável pela a animação de dia para noite:
 function dayToNight() {
     container.style.background = "#2a2c36";
     sun.style.opacity = 0;
@@ -51,6 +57,7 @@ function dayToNight() {
     container.classList.add("night");
 }
 
+// Função responsável por realizar troca de classes em um determinado elemento:
 function changeClass(search, oldClass, newClass) {
     var elements = document.querySelectorAll(search);
 
@@ -61,5 +68,24 @@ function changeClass(search, oldClass, newClass) {
         if (newClass != "") {
             elements[i].classList.add(newClass);
         }
+    }
+}
+
+
+// ---- Persistência da escolho de modo noturo:
+
+// Classe do modo noturo:
+const darkTheme = 'body-dark';
+
+// Verificando se já foi selecionado pelo usuário:
+const selectedTheme = localStorage.getItem('selected-theme');
+
+// Obtendo a escolha atual:
+const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
+
+// Validando a escolho do usuário:
+if (selectedTheme) {
+    if (selectedTheme === 'dark') {
+        container.click();
     }
 }
