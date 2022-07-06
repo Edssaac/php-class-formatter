@@ -1,3 +1,4 @@
+const controls = document.querySelectorAll(".form-control");
 const container = document.getElementById("day-night");
 const sun = document.getElementById("sun");
 const moon = document.getElementById("moon");
@@ -9,25 +10,24 @@ container.addEventListener("click", () => {
     if (container.classList.contains("night")) {
         nightToDay();
 
-        document.querySelector("body").classList.toggle("bg-light", true);
-        document.querySelector("body").classList.toggle("bg-dark", false);
-
-        changeTextClass("text-success", "text-primary");
-        changeTextClass("text-light", "text-dark");
-
+        changeClass("body", "body-dark", "body-light");
+        changeClass(".text-success", "text-success", "text-primary");
+        changeClass(".text-dark-dark", "text-dark-dark", "text-dark");
+        changeClass(".jumbotron", "jumbotron-dark", "jumbotron-light");
+        changeClass(".form-control", "form-control-dark", "");
 
     } else {
         dayToNight();
 
-        document.querySelector("body").classList.toggle("bg-light", false);
-        document.querySelector("body").classList.toggle("bg-dark", true);
+        changeClass("body", "body-light", "body-dark");
+        changeClass(".text-primary", "text-primary", "text-success");
+        changeClass(".text-dark", "text-dark", "text-dark-dark");
+        changeClass(".jumbotron", "jumbotron-light", "jumbotron-dark");
+        changeClass(".form-control", "", "form-control-dark");
 
-        changeTextClass("text-primary", "text-success");
-        changeTextClass("text-dark", "text-light");
     }
 
 });
-
 
 function nightToDay() {
     container.style.background = "#e9786b";
@@ -51,12 +51,15 @@ function dayToNight() {
     container.classList.add("night");
 }
 
+function changeClass(search, oldClass, newClass) {
+    var elements = document.querySelectorAll(search);
 
-function changeTextClass(oldClass, newClass) {
-    var textos = document.querySelectorAll("." + oldClass);
-
-    for (var i = 0; i < textos.length; i++) {
-        textos[i].classList.remove(oldClass);
-        textos[i].classList.add(newClass);
+    for (var i = 0; i < elements.length; i++) {
+        if (oldClass != "") {
+            elements[i].classList.remove(oldClass);
+        }
+        if (newClass != "") {
+            elements[i].classList.add(newClass);
+        }
     }
 }

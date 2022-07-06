@@ -10,3 +10,32 @@
 main {
     min-height: 40vw;
 }
+
+.body-light {
+    background: #fff;
+    color: #212529;
+
+}
+
+.body-dark {
+    background: #1b1e1f;
+    color: #d1cdc7;
+}
+
+.jumbotron-light {
+    background: #e9ecef;
+}
+
+.jumbotron-dark {
+    background: #232627 !important;
+}
+
+.form-control-dark {
+    color: rgb(181, 175, 166) !important;
+    background-color: rgb(24, 26, 27) !important;
+    border-color: rgb(60, 65, 68) !important;
+}
+
+.text-dark-dark {
+    color: rgb(195, 190, 182) !important;
+}
