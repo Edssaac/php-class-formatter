@@ -174,7 +174,7 @@ function getSetters() {
 
     for (var i = 0; i < attributesArray.length; i++) {
         var name = capitalizeFirst(attributesArray[i]);
-        setter += "\t\tpublic function set" + name + "($" + attributesArray[i] + "){<br>";
+        setter += "\t\tpublic function set" + name + "($" + attributesArray[i] + ") {<br>";
         setter += "\t\t\t$this->" + attributesArray[i] + " = $" + attributesArray[i] + ";";
         setter += "<br>\t\t}<br><br>";
     }
