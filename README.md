@@ -1,56 +1,56 @@
-<div align="center">
-        <h1>PHP Class Formatter</h1>
-</div>
+## Apresentação Geral
 
-<div>
-    <p>Essa ferramenta pode ser execultada a partir de qualquer navegador e permite a construção automática de uma classe PHP com método construtor, getters e setters a partir de uma simples lista de atributos.</p>
-</div>
+**Nome do Projeto:** PHP Class Formatter
 
-<div>
-    <p>Se desejável, edite o namespace e o nome da classe, insira a lista de atributos que a classe deve conter e a crie com poucos cliques! 
-    <br>Após isso, se sinta livre para copiar o código criado ou até mesmo salvar em um arquivo.</p>
-</div>
+**Descrição:**
 
-<div align="center">
-    <img src="public/img/demo/php-class-formatter.png">
-</div>
+Essa ferramenta pode ser executada a partir de qualquer navegador e facilita a criação automática de uma classe PHP com método construtor, getters e setters, a partir de uma simples lista de atributos.
 
-## Modo de usar:
-<div>
-    <p>Preencher os campos "Namespace" e "Nome da Classe" é opcional, mas para a classe ser gerada deve ser informado pelo menos um atributo.
-    <br>Os atributos podem estar separados por quebra de linha:</p>
-        
+Personalize o namespace e o nome da classe, insira os atributos desejados e crie a classe com apenas alguns cliques!
+
+Após a criação, você pode copiar o código gerado ou salvar em um arquivo para uso futuro.
+
+![demo](https://raw.githubusercontent.com/Edssaac/php-class-formatter/main/public/img/demo/php-class-formatter.png)
+
+**Objetivo:**
+
+Implementar uma interface intuitiva que simplifique e automatize a criação de classes PHP.
+
+**Tecnologias Utilizadas:**
+
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JAVASCRIPT](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+
+## Como Usar:
+
+O preenchimento dos campos "Namespace" e "Nome da Classe" é opcional, mas pelo menos um atributo deve ser informado para que a classe seja gerada.
+Os atributos podem ser inseridos de diferentes maneiras:
+
+- Separados por quebras de linha:
 ```
 atributo1
 atributo_2
 ```
-</div>
 
-<div>
-    <p>Separados por espaço em branco:</p>
-        
+- Separados por espaços em branco:  
 ```
 atributo1 atributo_2
 ```
-</div>
 
-<div>
-    <p>Ou separados pelos dois jeitos:</p>
-        
+- Ou uma combinação dos dois:
 ```
 atributo1 atributo_2
 atributo_3 atributo4
 ```
-</div>
 
-<p>* Atributos não podem conter caracteres especiais ou espaços em seus nomes.</p>
+Observação: Os nomes dos atributos não podem conter caracteres especiais ou espaços.
 
-## Exemplo de código gerado pela ferramenta:
-<div align="center">
-    <img src="public/img/demo/body-code.png">
-</div>
+## Exemplo:
 
-## Código copiado:
+![demo](https://raw.githubusercontent.com/Edssaac/php-class-formatter/main/public/img/demo/body-code.png)
+
+> Código copiado:
 ```php
 <?php
 	namespace Pasta\Subpasta;
