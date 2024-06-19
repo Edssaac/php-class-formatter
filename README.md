@@ -22,7 +22,7 @@ Implementar uma interface intuitiva que simplifique e automatize a criação de 
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JAVASCRIPT](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 
-## Como Usar:
+## Como Usar
 
 O preenchimento dos campos "Namespace" e "Nome da Classe" é opcional, mas pelo menos um atributo deve ser informado para que a classe seja gerada.
 Os atributos podem ser inseridos de diferentes maneiras:
@@ -46,7 +46,7 @@ atributo_3 atributo4
 
 Observação: Os nomes dos atributos não podem conter caracteres especiais ou espaços.
 
-## Exemplo:
+## Exemplo
 
 ![demo](https://raw.githubusercontent.com/Edssaac/php-class-formatter/main/public/img/demo/body-code.png)
 
