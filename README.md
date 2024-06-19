@@ -12,7 +12,7 @@
 </div>
 
 <div align="center">
-    <img src="projeto/php-class-formatter.png">
+    <img src="public/img/demo/php-class-formatter.png">
 </div>
 
 ## Modo de usar:
@@ -47,7 +47,7 @@ atributo_3 atributo4
 
 ## Exemplo de código gerado pela ferramenta:
 <div align="center">
-    <img src="projeto/exemplo.png">
+    <img src="public/img/demo/body-code.png">
 </div>
 
 ## Código copiado:

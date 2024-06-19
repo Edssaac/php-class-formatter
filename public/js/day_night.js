@@ -6,86 +6,93 @@ const moon = document.getElementById("moon");
 const stars = document.getElementById("stars");
 const water = document.getElementById("water");
 
-// Verificando se o botão de modo noturdo/diário foi clicado:
-container.addEventListener("click", () => {
+// Função para alternar entre modos
+const toggleMode = () => {
+    const isNight = container.classList.contains("night");
 
-    if (container.classList.contains("night")) { // Mudando para o modo diurno:
-        nightToDay();
-
-        changeClass("body", "body-dark", "body-light");
-        changeClass(".text-success", "text-success", "text-primary");
-        changeClass(".text-dark-dark", "text-dark-dark", "text-dark");
-        changeClass(".jumbotron", "jumbotron-dark", "jumbotron-light");
-        changeClass(".form-control", "form-control-dark", "");
-
-    } else { // Mudando para o modo noturno:
-        dayToNight();
-
-        changeClass("body", "body-light", "body-dark");
-        changeClass(".text-primary", "text-primary", "text-success");
-        changeClass(".text-dark", "text-dark", "text-dark-dark");
-        changeClass(".jumbotron", "jumbotron-light", "jumbotron-dark");
-        changeClass(".form-control", "", "form-control-dark");
-
-    }
-
-    // Salvando o modo selecionado pelo usuário:
+    setStyles(isNight ? 'day' : 'night');
+    toggleClasses(isNight ? 'day' : 'night');
     localStorage.setItem('selected-theme', getCurrentTheme());
-});
+};
 
-// Função responsável pela a animação de noite para dia:
-function nightToDay() {
-    container.style.background = "#e9786b";
-    sun.style.opacity = 1;
-    sun.style.top = "26px";
-    moon.style.top = "-50px";
-    moon.style.left = "120%";
-    water.style.background = "#71baf2";
-
-    container.classList.remove("night");
-}
-
-// Função responsável pela a animação de dia para noite:
-function dayToNight() {
-    container.style.background = "#2a2c36";
-    sun.style.opacity = 0;
-    sun.style.top = "50px";
-    moon.style.top = "15px";
-    moon.style.left = "20px";
-    water.style.background = "#7fa1bb";
-
-    container.classList.add("night");
-}
-
-// Função responsável por realizar troca de classes em um determinado elemento:
-function changeClass(search, oldClass, newClass) {
-    var elements = document.querySelectorAll(search);
-
-    for (var i = 0; i < elements.length; i++) {
-        if (oldClass != "") {
-            elements[i].classList.remove(oldClass);
+// Função para definir estilos
+const setStyles = (mode) => {
+    const styles = {
+        day: {
+            containerBg: "#e9786b",
+            sunOpacity: 1,
+            sunTop: "26px",
+            moonTop: "-50px",
+            moonLeft: "120%",
+            waterBg: "#71baf2",
+            removeClass: 'night'
+        },
+        night: {
+            containerBg: "#2a2c36",
+            sunOpacity: 0,
+            sunTop: "50px",
+            moonTop: "15px",
+            moonLeft: "20px",
+            waterBg: "#7fa1bb",
+            addClass: 'night'
         }
-        if (newClass != "") {
-            elements[i].classList.add(newClass);
-        }
-    }
-}
+    };
 
+    const currentStyles = styles[mode];
 
-// ---- Persistência da escolho de modo noturo:
+    container.style.background = currentStyles.containerBg;
+    sun.style.opacity = currentStyles.sunOpacity;
+    sun.style.top = currentStyles.sunTop;
+    moon.style.top = currentStyles.moonTop;
+    moon.style.left = currentStyles.moonLeft;
+    water.style.background = currentStyles.waterBg;
 
-// Classe do modo noturo:
-const darkTheme = 'body-dark';
+    if (currentStyles.removeClass) container.classList.remove(currentStyles.removeClass);
+    if (currentStyles.addClass) container.classList.add(currentStyles.addClass);
+};
+
+// Função para alternar classes
+const toggleClasses = (mode) => {
+    const classChanges = {
+        day: [
+            { element: 'body', remove: 'body-dark', add: 'body-light' },
+            { element: '.text-success', remove: 'text-success', add: 'text-primary' },
+            { element: '.text-dark-dark', remove: 'text-dark-dark', add: 'text-dark' },
+            { element: '.jumbotron', remove: 'jumbotron-dark', add: 'jumbotron-light' },
+            { element: '.form-control', remove: 'form-control-dark', add: '' }
+        ],
+        night: [
+            { element: 'body', remove: 'body-light', add: 'body-dark' },
+            { element: '.text-primary', remove: 'text-primary', add: 'text-success' },
+            { element: '.text-dark', remove: 'text-dark', add: 'text-dark-dark' },
+            { element: '.jumbotron', remove: 'jumbotron-light', add: 'jumbotron-dark' },
+            { element: '.form-control', remove: '', add: 'form-control-dark' }
+        ]
+    };
+
+    classChanges[mode].forEach(change => {
+        document.querySelectorAll(change.element).forEach(elem => {
+            if (change.remove) {
+                elem.classList.remove(change.remove);
+            }
+
+            if (change.add) {
+                elem.classList.add(change.add);
+            }
+        });
+    });
+};
+
+// Obtendo a escolha atual:
+const getCurrentTheme = () => document.body.classList.contains('body-dark') ? 'dark' : 'light';
 
 // Verificando se já foi selecionado pelo usuário:
 const selectedTheme = localStorage.getItem('selected-theme');
 
-// Obtendo a escolha atual:
-const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
-
-// Validando a escolho do usuário:
-if (selectedTheme) {
-    if (selectedTheme === 'dark') {
-        container.click();
-    }
+if (selectedTheme && selectedTheme === 'dark') {
+    setStyles('night');
+    toggleClasses('night');
 }
+
+// Verificando se o botão de modo noturno/diário foi clicado:
+container.addEventListener("click", toggleMode);

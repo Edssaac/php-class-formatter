@@ -1,198 +1,151 @@
 // Constantes necessárias para o projeto:
-const btnCriar = document.getElementById("btnCriar");
-const btnCopiar = document.getElementById("btnCopiar");
-const btnBaixar = document.getElementById("btnBaixar");
-const btnLimpar = document.getElementById("btnLimpar");
+const btnCreate = document.getElementById("btnCreate");
+const btnCopy = document.getElementById("btnCopy");
+const btnDownload = document.getElementById("btnDownload");
+const btnClear = document.getElementById("btnClear");
 const txtNamespace = document.getElementById("txtNamespace");
 const txtClass = document.getElementById("txtClass");
-const txtAtributos = document.getElementById("txtAtributos");
-const corpoCodigo = document.getElementById("corpoCodigo");
+const txtAttributes = document.getElementById("txtAttributes");
+const bodyCode = document.getElementById("bodyCode");
 const cbxConstructor = document.getElementById("cbxConstructor");
 const cbxGetter = document.getElementById("cbxGetter");
+const cbxSetter = document.getElementById("cbxSetter"); // Adicionei a constante para o checkbox de setters
 
 // Array de atributos passados pelo usuário:
-var attributesArray = [];
+let attributesArray = [];
 
-// Esperando o evento de clique do botão de criar:
-btnCriar.addEventListener("click", () => {
-    if (txtAtributos.value.length > 0) {
+// Event listeners
+btnCreate.addEventListener("click", () => {
+    if (txtAttributes.value.trim()) {
         createClass();
     }
 });
 
-// Esperando o evento de clique do botão de limpar:
-btnLimpar.addEventListener("click", () => {
+// Função para limpar os campos
+const clearFields = () => {
     txtNamespace.value = "";
     txtClass.value = "";
-    txtAtributos.value = "";
-    corpoCodigo.innerHTML = "";
-    corpoCodigo.classList.remove("hljs");
-    btnCopiar.classList.add("invisible");
-    btnBaixar.classList.add("invisible");
-});
+    txtAttributes.value = "";
+    bodyCode.innerHTML = "";
+    bodyCode.classList.remove("hljs");
+    btnCopy.classList.add("invisible");
+    btnDownload.classList.add("invisible");
+}
 
-// Esperando o evento de clique do botão de copiar:
-btnCopiar.addEventListener("click", () => {
-    var codigo = corpoCodigo.innerText;
-    var input = document.createElement('textarea');
+// Função para copiar o código para o clipboard
+const copyToClipboard = () => {
+    const codigo = bodyCode.innerText;
+    const input = document.createElement('textarea');
 
-    btnCopiar.appendChild(input);
+    document.body.appendChild(input);
     input.value = codigo;
     input.focus();
     input.select();
     document.execCommand('Copy');
-
     input.remove();
-});
+}
 
-// Esperando o evento de clique do botão de baixar:
-btnBaixar.addEventListener("click", () => {
-    var codigo = corpoCodigo.innerText;
-    var link = document.createElement("a");
-    var className = txtClass.value.trim();
+// Função para baixar o código gerado
+const downloadCode = () => {
+    const codigo = bodyCode.innerText;
+    const link = document.createElement("a");
+    let className = txtClass.value.trim() || "ClasseExemplo";
 
-    className = (className == "") ? "ClasseExemplo" : capitalizeFirst(className);
+    className = capitalizeFirst(className);
     link.href = window.URL.createObjectURL(new Blob([codigo], { type: "text/php" }));
-    link.download = className + ".php";
+    link.download = `${className}.php`;
     link.click();
-});
+}
 
-// Função responsável pela criação da classe PHP:
-function createClass() {
+// Função responsável pela criação da classe PHP
+const createClass = () => {
     attributesArray = createAttributes();
 
-    var className = txtClass.value.trim();
-    var namespace = txtNamespace.value.trim();
+    const className = capitalizeFirst(txtClass.value.trim() || "ClasseExemplo");
+    const namespace = txtNamespace.value.trim() || "Pasta\\Subpasta";
 
-    namespace = (namespace == "") ? "Pasta\\Subpasta" : namespace;
-    className = (className == "") ? "ClasseExemplo" : capitalizeFirst(className);
+    const structure = [
+        "&lt;?php",
+        `\tnamespace ${namespace};`,
+        "",
+        `\tclass ${className} {`,
+        "",
+        getAttributes(),
+        "",
+        getConstructor(),
+        getSetters(),
+        getGetters(),
+        "\t}",
+        "?>",
+    ];
 
-    var structure =
-        [
-            "&lt;?php",
-            "<br>",
-            "\tnamespace " + namespace + ";",
-            "<br>",
-            "<br>",
-            "\tclass " + className + " {",
-            "<br>",
-            "<br>",
-            getAtributos(),
-            "<br>",
-            getConstructor(),
-            "<br>",
-            getSetters(),
-            getGetters(),
-            "\t}",
-            "<br>",
-            "?>",
-        ];
-
-    corpoCodigo.innerHTML = "";
-
-    for (var i = 0; i < structure.length; i++) {
-        corpoCodigo.innerHTML += structure[i];
-    }
-
-    sintaxHighlight();
-    btnCopiar.classList.remove("invisible");
-    btnBaixar.classList.remove("invisible");
+    bodyCode.innerHTML = structure.join("<br>");
+    syntaxHighlight();
+    btnCopy.classList.remove("invisible");
+    btnDownload.classList.remove("invisible");
 }
 
-// Função responsável pela criação dos atributos em formato PHP:
-function createAttributes() {
-    attributesArray = null;
-    var atributos = txtAtributos.value.trim();
-
-    atributos = atributos.replaceAll(" ", "\n");
-    atributos = atributos.split("\n");
-
-    return atributos;
+// Função responsável pela criação dos atributos em formato PHP
+const createAttributes = () => {
+    return txtAttributes.value
+        .trim()
+        .replaceAll(" ", "\n")
+        .split("\n");
 }
 
-// Função responsável por obter os atributos passados pelo usuário:
-function getAtributos() {
-    var atributos = "";
-
-    for (var i = 0; i < attributesArray.length; i++) {
-        atributos += "\t\tprivate $" + attributesArray[i] + ";<br>";
-    }
-
-    return atributos;
+// Função responsável por obter os atributos passados pelo usuário
+const getAttributes = () => {
+    return attributesArray.map(attr => `\t\tprivate $${attr};`).join("<br>");
 }
 
-// Função responsável pela criação do método construtor da classe:
-function getConstructor() {
+// Função responsável pela criação do método construtor da classe
+const getConstructor = () => {
     if (!cbxConstructor.checked) {
         return "";
     }
 
-    var constructor = "";
+    const params = attributesArray.map(attr => `$${attr} = ''`).join(", ");
+    const body = attributesArray.map(attr => `\t\t\t$this->${attr} = $${attr};`).join("<br>");
 
-    constructor += "\t\tpublic function __construct("
-
-    for (var i = 0; i < attributesArray.length; i++) {
-        constructor += "$" + attributesArray[i] + " = ''" + ((i + 1) < attributesArray.length ? ", " : "");
-    }
-
-    constructor += ") {";
-
-    for (var i = 0; i < attributesArray.length; i++) {
-        constructor += "<br>\t\t\t$this->" + attributesArray[i] + " = $" + attributesArray[i] + ";";
-    }
-
-    constructor += "<br>\t\t}<br>";
-
-    return constructor;
+    return `\t\tpublic function __construct(${params}) {<br>${body}<br>\t\t}<br>`;
 }
 
-// Função responsável pela criação do método get dos atributos:
-function getGetters() {
+// Função responsável pela criação dos métodos getters
+const getGetters = () => {
     if (!cbxGetter.checked) {
         return "";
     }
 
-    var getter = "";
-
-    for (var i = 0; i < attributesArray.length; i++) {
-        var name = capitalizeFirst(attributesArray[i]);
-        getter += "\t\tpublic function get" + name + "() {<br>";
-        getter += "\t\t\treturn $this->" + attributesArray[i] + ";<br>";
-        getter += "\t\t}<br><br>";
-    }
-
-    return getter;
+    return attributesArray.map(attr => {
+        const name = capitalizeFirst(attr);
+        return `\t\tpublic function get${name}() {<br>\t\t\treturn $this->${attr};<br>\t\t}<br>`;
+    }).join("<br>");
 }
 
-// Função responsável pela criação do método set dos atributos:
-function getSetters() {
-    if (!document.getElementById("cbxSetter").checked) {
+// Função responsável pela criação dos métodos setters
+const getSetters = () => {
+    if (!cbxSetter.checked) {
         return "";
     }
 
-    var setter = "";
-
-    for (var i = 0; i < attributesArray.length; i++) {
-        var name = capitalizeFirst(attributesArray[i]);
-        setter += "\t\tpublic function set" + name + "($" + attributesArray[i] + ") {<br>";
-        setter += "\t\t\t$this->" + attributesArray[i] + " = $" + attributesArray[i] + ";";
-        setter += "<br>\t\t}<br><br>";
-    }
-
-
-    return setter;
+    return attributesArray.map(attr => {
+        const name = capitalizeFirst(attr);
+        return `\t\tpublic function set${name}($${attr}) {<br>\t\t\t$this->${attr} = $${attr};<br>\t\t}<br>`;
+    }).join("<br>");
 }
 
-// Função responsável por alterar a primeira letra de uma string para caixa alta:
-function capitalizeFirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+// Função responsável por alterar a primeira letra de uma string para maiúscula
+const capitalizeFirst = string => string.charAt(0).toUpperCase() + string.slice(1);
+
+// Função responsável por aplicar o highlight para o código
+const syntaxHighlight = () => {
+    document.querySelectorAll("code").forEach(block => {
+        hljs.highlightBlock(block);
+    });
 }
 
-// Função responsável por aplicar o highlight para o código:
-function sintaxHighlight() {
-    block = document.getElementsByTagName("code");
+btnClear.addEventListener("click", clearFields);
 
-    for (var i = 0; i < block.length; i++) {
-        hljs.highlightBlock(block[i])
-    }
-}
+btnCopy.addEventListener("click", copyToClipboard);
+
+btnDownload.addEventListener("click", downloadCode);
